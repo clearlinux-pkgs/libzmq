@@ -7,6 +7,7 @@ Configure miss: whether we are using clang C++ compiler
 Configure miss: whether to enable debugging information
 Configure miss: whether to enable code coverage
 Configure miss: whether to enable ASan
+Configure miss: x86_64-generic-linux-gnu-getconf
 Configure miss: whether LOCAL_PEERCRED is declared
 Configure miss: stdbool.h that conforms to C99
 Configure miss: _Bool
