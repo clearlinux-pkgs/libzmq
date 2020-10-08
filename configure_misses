@@ -6,15 +6,19 @@ Configure miss: whether we are using Sun Studio C++ compiler
 Configure miss: whether we are using clang C++ compiler
 Configure miss: whether to enable debugging information
 Configure miss: whether to enable code coverage
+Configure miss: whether to enable TSan
 Configure miss: whether to enable ASan
 Configure miss: x86_64-generic-linux-gnu-getconf
 Configure miss: whether LOCAL_PEERCRED is declared
 Configure miss: stdbool.h that conforms to C99
 Configure miss: _Bool
 Configure miss: "with_norm_ext = no"
+Configure miss: whether C++ compiler accepts -Watomic-alignment
 Configure miss: whether signature of pthread_setname_np() has 1 argument
 Configure miss: whether signature of pthread_setname_np() has 3 arguments
 Configure miss: whether pthread_set_name_np() exists
 Configure miss: whether TCP_KEEPALIVE is supported
 Configure miss: ./.git
 Configure miss: clang-format
+Configure miss: whether C compiler accepts -Wtautological-constant-compare
+Configure miss: whether C++ compiler accepts -Wtautological-constant-compare

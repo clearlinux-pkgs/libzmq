@@ -4,10 +4,10 @@
 #
 %define keepstatic 1
 Name     : libzmq
-Version  : 4.3.2
-Release  : 7
-URL      : https://github.com/zeromq/libzmq/releases/download/v4.3.2/zeromq-4.3.2.tar.gz
-Source0  : https://github.com/zeromq/libzmq/releases/download/v4.3.2/zeromq-4.3.2.tar.gz
+Version  : 4.3.3
+Release  : 8
+URL      : https://github.com/zeromq/libzmq/releases/download/v4.3.3/zeromq-4.3.3.tar.gz
+Source0  : https://github.com/zeromq/libzmq/releases/download/v4.3.3/zeromq-4.3.3.tar.gz
 Summary  : 0MQ c++ library
 Group    : Development/Tools
 License  : BSD-2-Clause GPL-3.0 LGPL-3.0 MIT
@@ -17,8 +17,11 @@ Requires: libzmq-license = %{version}-%{release}
 Requires: libzmq-man = %{version}-%{release}
 BuildRequires : asciidoc
 BuildRequires : buildreq-cmake
+BuildRequires : pkgconfig(gnutls)
 BuildRequires : pkgconfig(krb5-gssapi)
+BuildRequires : pkgconfig(libbsd)
 BuildRequires : pkgconfig(libunwind)
+BuildRequires : pkgconfig(nss)
 BuildRequires : sed
 BuildRequires : valgrind
 BuildRequires : xmlto
@@ -84,20 +87,21 @@ staticdev components for the libzmq package.
 
 
 %prep
-%setup -q -n zeromq-4.3.2
+%setup -q -n zeromq-4.3.3
+cd %{_builddir}/zeromq-4.3.3
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1563911849
+export SOURCE_DATE_EPOCH=1602198264
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-%configure
+%configure  --without-pgm
 make  %{?_smp_mflags}
 
 %check
@@ -105,16 +109,16 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1563911849
+export SOURCE_DATE_EPOCH=1602198264
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libzmq
-cp COPYING %{buildroot}/usr/share/package-licenses/libzmq/COPYING
-cp COPYING.LESSER %{buildroot}/usr/share/package-licenses/libzmq/COPYING.LESSER
-cp external/unity/license.txt %{buildroot}/usr/share/package-licenses/libzmq/external_unity_license.txt
-cp external/wepoll/license.txt %{buildroot}/usr/share/package-licenses/libzmq/external_wepoll_license.txt
+cp %{_builddir}/zeromq-4.3.3/COPYING %{buildroot}/usr/share/package-licenses/libzmq/99b1a5c7351fd39a26db3b560ce91eec4a3aca3d
+cp %{_builddir}/zeromq-4.3.3/COPYING.LESSER %{buildroot}/usr/share/package-licenses/libzmq/cd024bd665e7b8244ee020856b359e3d7babc454
+cp %{_builddir}/zeromq-4.3.3/external/unity/license.txt %{buildroot}/usr/share/package-licenses/libzmq/82d0bcdf2087a772a9517374e2df993d85fb447e
+cp %{_builddir}/zeromq-4.3.3/external/wepoll/license.txt %{buildroot}/usr/share/package-licenses/libzmq/0cf031c01628cf0ee33ed398038238a76ebbd1b7
 %make_install
 
 %files
@@ -126,7 +130,8 @@ cp external/wepoll/license.txt %{buildroot}/usr/share/package-licenses/libzmq/ex
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/zmq.h
+/usr/include/zmq_utils.h
 /usr/lib64/libzmq.so
 /usr/lib64/pkgconfig/libzmq.pc
 /usr/share/man/man3/zmq_atomic_counter_dec.3
@@ -138,6 +143,7 @@ cp external/wepoll/license.txt %{buildroot}/usr/share/package-licenses/libzmq/ex
 /usr/share/man/man3/zmq_bind.3
 /usr/share/man/man3/zmq_close.3
 /usr/share/man/man3/zmq_connect.3
+/usr/share/man/man3/zmq_connect_peer.3
 /usr/share/man/man3/zmq_ctx_get.3
 /usr/share/man/man3/zmq_ctx_new.3
 /usr/share/man/man3/zmq_ctx_set.3
@@ -155,6 +161,7 @@ cp external/wepoll/license.txt %{buildroot}/usr/share/package-licenses/libzmq/ex
 /usr/share/man/man3/zmq_msg_get.3
 /usr/share/man/man3/zmq_msg_gets.3
 /usr/share/man/man3/zmq_msg_init.3
+/usr/share/man/man3/zmq_msg_init_buffer.3
 /usr/share/man/man3/zmq_msg_init_data.3
 /usr/share/man/man3/zmq_msg_init_size.3
 /usr/share/man/man3/zmq_msg_more.3
@@ -188,14 +195,14 @@ cp external/wepoll/license.txt %{buildroot}/usr/share/package-licenses/libzmq/ex
 %files lib
 %defattr(-,root,root,-)
 /usr/lib64/libzmq.so.5
-/usr/lib64/libzmq.so.5.2.2
+/usr/lib64/libzmq.so.5.2.3
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libzmq/COPYING
-/usr/share/package-licenses/libzmq/COPYING.LESSER
-/usr/share/package-licenses/libzmq/external_unity_license.txt
-/usr/share/package-licenses/libzmq/external_wepoll_license.txt
+/usr/share/package-licenses/libzmq/0cf031c01628cf0ee33ed398038238a76ebbd1b7
+/usr/share/package-licenses/libzmq/82d0bcdf2087a772a9517374e2df993d85fb447e
+/usr/share/package-licenses/libzmq/99b1a5c7351fd39a26db3b560ce91eec4a3aca3d
+/usr/share/package-licenses/libzmq/cd024bd665e7b8244ee020856b359e3d7babc454
 
 %files man
 %defattr(0644,root,root,0755)
