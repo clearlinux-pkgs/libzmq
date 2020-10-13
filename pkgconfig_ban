@@ -1,6 +1,7 @@
 # This file contains pkgconfig build requirements that get picked up
 # but are undesirable. One entry per line, no whitespace.
-openpgm-5.2
-openpgm-5.3
+libbsd
 libsodium
 norm
+openpgm-5.2
+openpgm-5.3

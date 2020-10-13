@@ -1,1 +1,2 @@
 --without-pgm
+--disable-libbsd

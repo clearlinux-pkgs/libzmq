@@ -14,6 +14,7 @@ Configure miss: stdbool.h that conforms to C99
 Configure miss: _Bool
 Configure miss: "with_norm_ext = no"
 Configure miss: whether C++ compiler accepts -Watomic-alignment
+Configure miss: whether strlcpy is available
 Configure miss: whether signature of pthread_setname_np() has 1 argument
 Configure miss: whether signature of pthread_setname_np() has 3 arguments
 Configure miss: whether pthread_set_name_np() exists

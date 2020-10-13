@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libzmq
 Version  : 4.3.3
-Release  : 8
+Release  : 9
 URL      : https://github.com/zeromq/libzmq/releases/download/v4.3.3/zeromq-4.3.3.tar.gz
 Source0  : https://github.com/zeromq/libzmq/releases/download/v4.3.3/zeromq-4.3.3.tar.gz
 Summary  : 0MQ c++ library
@@ -19,7 +19,6 @@ BuildRequires : asciidoc
 BuildRequires : buildreq-cmake
 BuildRequires : pkgconfig(gnutls)
 BuildRequires : pkgconfig(krb5-gssapi)
-BuildRequires : pkgconfig(libbsd)
 BuildRequires : pkgconfig(libunwind)
 BuildRequires : pkgconfig(nss)
 BuildRequires : sed
@@ -95,13 +94,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1602198264
+export SOURCE_DATE_EPOCH=1602609315
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-%configure  --without-pgm
+%configure  --without-pgm \
+--disable-libbsd
 make  %{?_smp_mflags}
 
 %check
@@ -112,7 +112,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1602198264
+export SOURCE_DATE_EPOCH=1602609315
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libzmq
 cp %{_builddir}/zeromq-4.3.3/COPYING %{buildroot}/usr/share/package-licenses/libzmq/99b1a5c7351fd39a26db3b560ce91eec4a3aca3d
